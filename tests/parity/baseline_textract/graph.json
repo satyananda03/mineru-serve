@@ -1,0 +1,17 @@
+{
+ "ok": true,
+ "items": [
+  {
+   "type": "image",
+   "img_path": "figure_p0_3798a279.jpg",
+   "image_caption": null,
+   "image_footnote": null,
+   "page_idx": 0,
+   "img_size": [
+    3510,
+    1613
+   ]
+  }
+ ],
+ "elapsed_s": 51.8
+}

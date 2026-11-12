@@ -1,0 +1,227 @@
+{
+ "ok": true,
+ "items": [
+  {
+   "type": "text",
+   "text": "PERATURAN PEMERINTAH REPUBLIK INDONESIA NOMOR 60 TAHUN 2008 TENTANG SISTEM PENGENDALIAN INTERN PEMERINTAH",
+   "page_idx": 0,
+   "text_level": 1
+  },
+  {
+   "type": "text",
+   "text": "DENGAN RAHMAT TUHAN YANG MAHA ESA PRESIDEN REPUBLIK INDONESIA,",
+   "page_idx": 0
+  },
+  {
+   "type": "text",
+   "text": "Menimbang : bahwa untuk melaksanakan ketentuan Pasal 58 ayat (2) Undang-Undang Nomor 1 Tahun 2004 tentang Perbendaharaan Negara, perlu menetapkan Peraturan Pemerintah tentang Sistem Pengendalian Intern Pemerintal, Mengingat : 1. Pasal 5 ayat (2) Undang-Undang Dasar Negara Republik Indonesia Tahun 1945; 2. Undang-Undang Nomor 1 Tahun 2004 tentang Perbendaharaan Negara (Lembaran Negara Republik Indonesia Tahun 2004 Nomor 5, Tambahan Lembaran Negara Republik Indonesia Nomor 4355);",
+   "page_idx": 0
+  },
+  {
+   "type": "text",
+   "text": "MEMUTUSKAN:",
+   "page_idx": 0
+  },
+  {
+   "type": "text",
+   "text": "Menetapkan : PERATURAN PEMERINTAH TENTANG SISTEM PENGENDALIAN INTERN PEMERINTAH.",
+   "page_idx": 0
+  },
+  {
+   "type": "text",
+   "text": "BAB I KETENTUAN UMUM",
+   "page_idx": 0
+  },
+  {
+   "type": "text",
+   "text": "Pasal 1",
+   "page_idx": 0,
+   "text_level": 2
+  },
+  {
+   "type": "text",
+   "text": "Dalam Peraturan Pemerintah ini yang dimaksud dengan:",
+   "page_idx": 0
+  },
+  {
+   "type": "text",
+   "text": "1. Sistem Pengendalian Intern adalah proses yang integral pada tindakan dan kegiatan yang dilakukan secara terus menerus oleh pimpinan dan seluruh pegawai untuk memberikan keyakinan memadai atas tercapainya tujuan organisasi melalui kegiatan yang efektif dan efisien, keandalan pelaporan keuangan, pengamanan aset negara, dan ketaatan terhadap peraturan",
+   "page_idx": 1
+  },
+  {
+   "type": "text",
+   "text": "2. Sistem Pengendalian Intern Pemerintah, yang selanjutnya disingkat SPIP, adalah Sistem Pengendalian Intern yang diselenggarakan secara menyeluruh di lingkungan pemerintah pusat dan pemerintah daerah.",
+   "page_idx": 1
+  },
+  {
+   "type": "text",
+   "text": "3. Pengawasan Intern adalah seluruh proses kegiatan audit, reviu, evaluasi, pemantauan, dan kegiatan pengawasan lain terhadap penyelenggaraan tugas dan fungsi organisasi dalam rangka memberikan keyakinan yang memadai bahwa kegiatan telah dilaksanakan sesuai dengan tolok ukur yang telah ditetapkan secara efektif dan efisien untuk kepentingan pimpinan dalam mewujudkan tata kepemerintahan yang baik.",
+   "page_idx": 1
+  },
+  {
+   "type": "text",
+   "text": "4. Badan Pengawasan Keuangan dan Pembangunan, yang selanjutnya disingkat BPKP, adalah aparat pengawasan intern pemerintah yang bertanggung jawab langsung kepada Presiden.",
+   "page_idx": 1
+  },
+  {
+   "type": "text",
+   "text": "5. Inspektorat Jenderal atau nama lain yang secara fungsional melaksanakan pengawasan intern adalah aparat pengawasan intern pemerintah yang bertanggung jawab langsung kepada menteri/pimpinan lembaga.",
+   "page_idx": 1
+  },
+  {
+   "type": "text",
+   "text": "6. Inspektorat Provinsi adalah aparat pengawasan intern pemerintah yang bertanggung jawab langsung kepada gubernur.",
+   "page_idx": 1
+  },
+  {
+   "type": "text",
+   "text": "7. Inspektorat Kabupaten/Kota adalah aparat pengawasan intern pemerintah yang bertanggung jawab langsung kepada bupati/walikota.",
+   "page_idx": 1
+  },
+  {
+   "type": "text",
+   "text": "8. Kementerian negara adalah organisasi dalam Pemerintahan Republik Indonesia yang dipimpin oleh menteri untuk melaksanakan tugas dalam bidang tertentu.",
+   "page_idx": 2
+  },
+  {
+   "type": "text",
+   "text": "9. Lembaga adalah organisasi non-kementerian negara dan instansi lain pengguna anggaran yang dibentuk untuk melaksanakan tugas tertentu berdasarkan Undang-Undang Dasar Negara Republik Indonesia Tahun 1945 atau peraturan perundang-undangan lainnya.",
+   "page_idx": 2
+  },
+  {
+   "type": "text",
+   "text": "10. Pemerintah daerah adalah gubernur, bupati, atau walikota, dan perangkat daerah sebagai unsur peryelengera pemerimahan daerah.",
+   "page_idx": 2
+  },
+  {
+   "type": "text",
+   "text": "11. Instansi Pemerintah adalah unsur penyelenggara pemerintahan pusat atau unsur penyelenggara pemerintahan daerah.",
+   "page_idx": 2
+  },
+  {
+   "type": "text",
+   "text": "Pasal 2",
+   "page_idx": 2,
+   "text_level": 2
+  },
+  {
+   "type": "text",
+   "text": "(1) Untuk mencapai pengelolaan keuangan negara yang efektif, efisien, transparan, dan akuntabel, menteri/pimpinan lembaga, gubernur, dan bupati/walikota wajib melakukan pengendalian atas kegiatan pemerintaban.",
+   "page_idx": 2
+  },
+  {
+   "type": "text",
+   "text": "(2) Pengendalian atas kegiatan pemerintahan sebagaimana dimaksud pada ayat (1), dilaksanakan dengan berpedoman pada SPIP sebagaimana diatur dalam Peraturan Pemerintah ini.",
+   "page_idx": 2
+  },
+  {
+   "type": "text",
+   "text": "(3) SPIP sebagaimana dimaksud pada ayat (2) bertujuan untuk memberikan keyakinan yang memadai bagi tercapainya efektivitas dan efisiensi pencapaian tujuan penyelenggaraan pemerintahan negara, keandalan pelaporan keuangan, pengamanan aset negara, dan ketaatan terhadap peraturan",
+   "page_idx": 2
+  },
+  {
+   "type": "text",
+   "text": "BAB II UNSUR SISTEM PENGENDALIAN INTERN PEMERINTAH",
+   "page_idx": 3,
+   "text_level": 2
+  },
+  {
+   "type": "text",
+   "text": "Bagian Kesatu Umum",
+   "page_idx": 3
+  },
+  {
+   "type": "text",
+   "text": "Pasal 3",
+   "page_idx": 3
+  },
+  {
+   "type": "text",
+   "text": "(1) SPIP terdiri atas unsur:",
+   "page_idx": 3
+  },
+  {
+   "type": "text",
+   "text": "a. lingkungan pengendalian;",
+   "page_idx": 3
+  },
+  {
+   "type": "text",
+   "text": "b. penilaian risiko;",
+   "page_idx": 3
+  },
+  {
+   "type": "text",
+   "text": "c. kegiatan pengendalian;",
+   "page_idx": 3
+  },
+  {
+   "type": "text",
+   "text": "d. informasi dan komunikasi; dan",
+   "page_idx": 3
+  },
+  {
+   "type": "text",
+   "text": "e. pemantauan pengendalian intern.",
+   "page_idx": 3
+  },
+  {
+   "type": "text",
+   "text": "(2) Penerapan unsur SPIP sebagaimana dimaksud pada ayat (1) dilaksanakan menyatu dan menjadi bagian integral dari kegiatan Instansi Pemerintah.",
+   "page_idx": 3
+  },
+  {
+   "type": "text",
+   "text": "Bagian Kedua Lingkungan Pengendalian",
+   "page_idx": 3,
+   "text_level": 2
+  },
+  {
+   "type": "text",
+   "text": "Pasal 4",
+   "page_idx": 3,
+   "text_level": 2
+  },
+  {
+   "type": "text",
+   "text": "Pimpinan Instansi Pemerintah wajib menciptakan dan memelihara lingkungan pengendalian yang menimbulkan perilaku positif dan kondusif untuk penerapan Sistem Pengendalian Intern dalam lingkungan kerjanya, melalui:",
+   "page_idx": 3
+  },
+  {
+   "type": "text",
+   "text": "a. penegakan integritas dan nilai etika;",
+   "page_idx": 3
+  },
+  {
+   "type": "text",
+   "text": "b. komitmen terhadap kompetensi;",
+   "page_idx": 3
+  },
+  {
+   "type": "text",
+   "text": "c. kepemimpinan yang kondusif;",
+   "page_idx": 3
+  },
+  {
+   "type": "text",
+   "text": "d. pembentukan struktur organisasi yang sesuai dengan kebutuhan;",
+   "page_idx": 3
+  },
+  {
+   "type": "text",
+   "text": "e. pendelegasian wewenang dan tanggung jawab yang tepat;",
+   "page_idx": 3
+  },
+  {
+   "type": "text",
+   "text": "f. penyusunan dan penerapan kebijakan yang sehat tentang pembinaan sumber daya manusia;",
+   "page_idx": 3
+  },
+  {
+   "type": "text",
+   "text": "g. perwujudan peran aparat pengawasan intern pemerintah yang efektif; dan",
+   "page_idx": 3
+  }
+ ],
+ "elapsed_s": 44.3
+}

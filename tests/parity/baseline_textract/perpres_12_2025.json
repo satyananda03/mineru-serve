@@ -1,0 +1,461 @@
+{
+ "ok": true,
+ "items": [
+  {
+   "type": "text",
+   "text": "PRESIDEN REPUBLIK INDONESIA",
+   "page_idx": 0
+  },
+  {
+   "type": "text",
+   "text": "SALINAN",
+   "page_idx": 0
+  },
+  {
+   "type": "text",
+   "text": "PERATURAN PRESIDEN REPUBLIK INDONESIA NOMOR 12 TAHUN 2025 TENTANG RENCANA PEMBANGUNAN JANGKA MENENGAH NASIONAL TAHUN 2025—2029",
+   "page_idx": 0,
+   "text_level": 1
+  },
+  {
+   "type": "text",
+   "text": "DENGAN RAHMAT TUHAN YANG MAHA ESA",
+   "page_idx": 0
+  },
+  {
+   "type": "text",
+   "text": "PRESIDEN REPUBLIK INDONESIA,",
+   "page_idx": 0,
+   "text_level": 2
+  },
+  {
+   "type": "text",
+   "text": "Menimbang : bahwa untuk melaksanakan ketentuan Pasal 19 ayat (1) Undang-Undang Nomor 25 Tahun 2004 tentang Sistem Perencanaan Pembangunan Nasional dan Pasal 8 ayat (2) Undang-Undang Nomor 59 Tahun 2024 tentang Rencana Pembangunan Jangka Panjang Nasional Tahun 2025—2045, perlu menetapkan Peraturan Presiden tentang Rencana Pembangunan Jangka Menengah Nasional Tahun 2025—2029;",
+   "page_idx": 0
+  },
+  {
+   "type": "text",
+   "text": "Mengingat",
+   "page_idx": 0,
+   "text_level": 2
+  },
+  {
+   "type": "text",
+   "text": ":",
+   "page_idx": 0
+  },
+  {
+   "type": "text",
+   "text": "1. Pasal 4 ayat (1) Undang-Undang Dasar Negara Republik Indonesia Tahun 1945;",
+   "page_idx": 0
+  },
+  {
+   "type": "text",
+   "text": "2. Undang-Undang Nomor 25 Tahun 2004 tentang Sistem Perencanaan Pembangunan Nasional (Lembaran Negara Republik Indonesia Tahun 2004 Nomor 104, Tambahan Lembaran Negara Republik Indonesia Nomor 4421);",
+   "page_idx": 0
+  },
+  {
+   "type": "text",
+   "text": "3. Undang-Undang Nomor 59 Tahun 2024 tentang Rencana Pembangunan Jangka Panjang Nasional Tahun 2025— 2045 (Lembaran Negara Republik Indonesia Tahun 2024 Nomor 194, Tambahan Lembaran Negara Republik Indonesia Nomor 6987);",
+   "page_idx": 0
+  },
+  {
+   "type": "text",
+   "text": "MEMUTUSKAN:",
+   "page_idx": 0,
+   "text_level": 2
+  },
+  {
+   "type": "text",
+   "text": "Menetapkan : PERATURAN PRESIDEN TENTANG RENCANA PEMBANGUNAN JANGKA MENENGAH NASIONAL TAHUN 2025—2029.",
+   "page_idx": 0
+  },
+  {
+   "type": "text",
+   "text": "Pasal 1",
+   "page_idx": 0
+  },
+  {
+   "type": "text",
+   "text": "PRESIDEN REPUBLIK INDONESIA",
+   "page_idx": 1
+  },
+  {
+   "type": "text",
+   "text": "Pasal 1",
+   "page_idx": 1,
+   "text_level": 2
+  },
+  {
+   "type": "text",
+   "text": "Dalam Peraturan Presiden ini yang dimaksud dengan:",
+   "page_idx": 1
+  },
+  {
+   "type": "text",
+   "text": "1. Perencanaan adalah suatu proses untuk menentukan tindakan masa depan yang tepat melalui urutan pilihan, dengan memperhitungkan sumber daya yang tersedia.",
+   "page_idx": 1
+  },
+  {
+   "type": "text",
+   "text": "2. Pembangunan Nasional adalah upaya yang dilaksanakan oleh semua komponen bangsa dalam rangka mencapai tujuan bernegara.",
+   "page_idx": 1
+  },
+  {
+   "type": "text",
+   "text": "3. Pembangunan Daerah adalah upaya yang sistematik untuk pemanfaatan sumber daya yang dimiliki daerah untuk peningkatan dan pemerataan pendapatan masyarakat, kesempatan kerja, lapangan berusaha, peningkatan akses dan kualitas pelayanan publik dan daya saing daerah sesuai dengan urusan pemerintahan yang menjadi kewenangannya.",
+   "page_idx": 1
+  },
+  {
+   "type": "text",
+   "text": "4. Rencana Pembangunan Jangka Panjang Nasional Tahun 2025—2045 yang selanjutnya disebut RPJP Nasional adalah dasar hukum Perencanaan Pembangunan Nasional untuk periode 20 (dua puluh) tahun terhitung sejak Tahun 2025 sampai dengan Tahun 2045.",
+   "page_idx": 1
+  },
+  {
+   "type": "text",
+   "text": "5. Rencana Pembangunan Jangka Menengah Nasional Tahun 2025—2029 yang selanjutnya disebut RPJM Nasional adalah dokumen Perencanaan Pembangunan Nasional untuk periode 5 (lima) tahun terhitung sejak Tahun 2025 sampai dengan Tahun 2029.",
+   "page_idx": 1
+  },
+  {
+   "type": "text",
+   "text": "6. Rencana Pembangunan Jangka Menengah Kementerian/Lembaga Tahun 2025—2029 yang selanjutnya disebut Rencana Strategis Kementerian/Lembaga atau disebut Renstra-KL adalah dokumen perencanaan kementerian/lembaga untuk periode 5 (lima) tahun terhitung sejak Tahun 2025 sampai dengan Tahun 2029.",
+   "page_idx": 1
+  },
+  {
+   "type": "text",
+   "text": "7. Rencana Pembangunan Jangka Menengah Daerah Tahun 2025—2029 yang selanjutnya disebut RPJM Daerah adalah dokumen Perencanaan Pembangunan Daerah untuk periode 5 (lima) tahun yang merupakan penjabaran dari visi, misi dan program kepala daerah dengan berpedoman pada Rencana Pembangunan Jangka Panjang Daerah dan RPJM Nasional terhitung sejak Tahun 2025 sampai dengan Tahun 2029.",
+   "page_idx": 1
+  },
+  {
+   "type": "text",
+   "text": "PRESIDEN REPUBLIK INDONESIA",
+   "page_idx": 2,
+   "text_level": 2
+  },
+  {
+   "type": "text",
+   "text": "8. Rencana Pembangunan Tahunan Nasional yang selanjutnya disebut Rencana Kerja Pemerintah atau disingkat RKP adalah dokumen Perencanaan Pembangunan Nasional untuk periode 1 (satu) tahun.",
+   "page_idx": 2
+  },
+  {
+   "type": "text",
+   "text": "9. Pemerintah Pusat yang selanjutnya disebut Pemerintah adalah Presiden Republik Indonesia yang memegang kekuasaan pemerintahan negara Republik Indonesia yang dibantu oleh Wakil Presiden dan menteri sebagaimana dimaksud dalam Undang-Undang Dasar Negara Republik Indonesia Tahun 1945.",
+   "page_idx": 2
+  },
+  {
+   "type": "text",
+   "text": "10. Pemerintahan Daerah adalah penyelenggaraan urusan pemerintahan oleh Pemerintah Daerah dan dewan perwakilan rakyat daerah menurut asas otonomi dan tugas pembantuan dengan prinsip otonomi seluas- luasnya dalam sistem dan prinsip NKRI sebagaimana dimaksud dalam Undang-Undang Dasar Negara Republik Indonesia Tahun 1945.",
+   "page_idx": 2
+  },
+  {
+   "type": "text",
+   "text": "11. Pemerintah Daerah adalah kepala daerah sebagai unsur penyelenggara Pemerintahan Daerah yang memimpin pelaksanaan urusan pemerintahan yang menjadi kewenangan daerah otonom.",
+   "page_idx": 2
+  },
+  {
+   "type": "text",
+   "text": "12. Menteri adalah menteri yang menyelenggarakan urusan pemerintahan di bidang perencanaan pembangunan nasional.",
+   "page_idx": 2
+  },
+  {
+   "type": "text",
+   "text": "Pasal 2",
+   "page_idx": 2,
+   "text_level": 2
+  },
+  {
+   "type": "text",
+   "text": "(1) RPJM Nasional merupakan penjabaran dari visi, misi, dan program pasangan Presiden dan Wakil Presiden hasil Pemilihan Umum Tahun 2024 yang disusun berdasarkan RPJP Nasional.",
+   "page_idx": 2
+  },
+  {
+   "type": "text",
+   "text": "(2) RPJM Nasional sebagaimana dimaksud pada ayat (1) memuat strategi Pembangunan Nasional, kebijakan umum, program kementerian/lembaga dan lintas kementerian/lembaga, kewilayahan dan lintas kewilayahan, serta kerangka ekonomi makro yang mencakup gambaran perekonomian secara menyeluruh dalam rencana kerja yang berupa kerangka regulasi dan kerangka pendanaan yang bersifat indikatif.",
+   "page_idx": 2
+  },
+  {
+   "type": "text",
+   "text": "(3) Dalam",
+   "page_idx": 2
+  },
+  {
+   "type": "text",
+   "text": "PRESIDEN REPUBLIK INDONESIA",
+   "page_idx": 3,
+   "text_level": 2
+  },
+  {
+   "type": "text",
+   "text": "(3) Dalam mendukung pencapaian sasaran pembangunan, Menteri melakukan pembinaan sumber daya manusia perencana.",
+   "page_idx": 3
+  },
+  {
+   "type": "text",
+   "text": "(4) Dalam mendukung pencapaian sasaran pembangunan, ditetapkan kementerian/lembaga koordinator dan kementerian/lembaga pengampu pada masing-masing prioritas nasional.",
+   "page_idx": 3
+  },
+  {
+   "type": "text",
+   "text": "(5) Kementerian/lembaga sebagaimana dimaksud pada ayat (4) dapat mengoordinasikan penyusunan kebijakan/program/kegiatan pada Renstra-KL dan rencana kerja kementerian/lembaga yang berkontribusi terhadap prioritas nasional sesuai dengan lingkup prioritas yang menjadi kewenangannya.",
+   "page_idx": 3
+  },
+  {
+   "type": "text",
+   "text": "(6) RPJM Nasional sebagaimana dimaksud pada ayat (1) merupakan:",
+   "page_idx": 3
+  },
+  {
+   "type": "text",
+   "text": "a. dasar hukum bagi kementerian/lembaga dalam menyusun Renstra-KL;",
+   "page_idx": 3
+  },
+  {
+   "type": "text",
+   "text": "b. dasar hukum penyusunan RPJM Daerah dengan memperhatikan tugas dan fungsi Pemerintah Daerah dalam mencapai sasaran Pembangunan Nasional yang termuat di dalam RPJM Nasional;",
+   "page_idx": 3
+  },
+  {
+   "type": "text",
+   "text": "c. dasar hukum bagi Pemerintah dalam menyusun RKP;",
+   "page_idx": 3
+  },
+  {
+   "type": "text",
+   "text": "d. pedoman dasar dalam pengendalian dan evaluasi pelaksanaan RPJM Nasional; dan",
+   "page_idx": 3
+  },
+  {
+   "type": "text",
+   "text": "e. pedoman bagi masyarakat untuk berpartisipasi dalam pelaksanaan Pembangunan Nasional.",
+   "page_idx": 3
+  },
+  {
+   "type": "text",
+   "text": "(7) RPJM Nasional memuat proyek strategis nasional.",
+   "page_idx": 3
+  },
+  {
+   "type": "text",
+   "text": "(8) RPJM Nasional wajib ditaati oleh seluruh pelaku pembangunan pemerintah dengan melibatkan pelaku pembangunan nonpemerintah.",
+   "page_idx": 3
+  },
+  {
+   "type": "text",
+   "text": "Pasal 3",
+   "page_idx": 3,
+   "text_level": 2
+  },
+  {
+   "type": "text",
+   "text": "(1) Kementerian/lembaga dan Pemerintah Daerah melaksanakan program dalam RPJM Nasional yang dijabarkan dalam Renstra-KL dan RPJM Daerah.",
+   "page_idx": 3
+  },
+  {
+   "type": "text",
+   "text": "(2) Dalam menyusun Renstra-KL sebagaimana dimaksud pada ayat (1), kementerian/lembaga wajib berkonsultasi dan berkoordinasi dengan kementerian/lembaga koordinator pada masing-masing prioritas nasional yang bersesuaian.",
+   "page_idx": 3
+  },
+  {
+   "type": "text",
+   "text": "(3) Dalam",
+   "page_idx": 3
+  },
+  {
+   "type": "text",
+   "text": "PRESIDEN REPUBLIK INDONESIA",
+   "page_idx": 4,
+   "text_level": 2
+  },
+  {
+   "type": "text",
+   "text": "(3) Dalam menyusun Renstra-KL sebagaimana dimaksud pada ayat (1), kementerian/lembaga wajib berkonsultasi, berkoordinasi dengan, dan mendapat persetujuan Menteri sesuai dengan ketentuan peraturan perundang- undangan.",
+   "page_idx": 4
+  },
+  {
+   "type": "text",
+   "text": "(4) Dalam menyusun dan/atau menyesuaikan RPJM Daerah sebagaimana dimaksud pada ayat (1), Pemerintah Daerah dapat melakukan konsultasi dan koordinasi dengan Menteri.",
+   "page_idx": 4
+  },
+  {
+   "type": "text",
+   "text": "Pasal 4",
+   "page_idx": 4,
+   "text_level": 2
+  },
+  {
+   "type": "text",
+   "text": "(1) Menteri melakukan pengendalian dan evaluasi terhadap pelaksanaan RPJM Nasional sesuai dengan ketentuan peraturan",
+   "page_idx": 4
+  },
+  {
+   "type": "text",
+   "text": "(2) Menteri dalam melakukan pengendalian dan evaluasi sebagaimana dimaksud pada ayat (1) didasarkan pada data yang sesuai dengan kebijakan satu data Indonesia, dan dengan menerapkan manajemen risiko Pembangunan Nasional.",
+   "page_idx": 4
+  },
+  {
+   "type": "text",
+   "text": "(3) Pengendalian sebagaimana dimaksud pada ayat (1) dilaksanakan secara berkala.",
+   "page_idx": 4
+  },
+  {
+   "type": "text",
+   "text": "(4) Evaluasi sebagaimana dimaksud pada ayat (1) dilaksanakan pada paruh waktu dan tahun terakhir pelaksanaan RPJM Nasional.",
+   "page_idx": 4
+  },
+  {
+   "type": "text",
+   "text": "(5) Hasil evaluasi paruh waktu dan tahun terakhir pelaksanaan RPJM Nasional sebagaimana dimaksud pada ayat (4) dilaporkan Menteri kepada Presiden.",
+   "page_idx": 4
+  },
+  {
+   "type": "text",
+   "text": "(6) Ketentuan lebih lanjut mengenai tata cara pengendalian dan evaluasi sebagaimana dimaksud pada ayat (2) dan ayat (3) diatur dengan Peraturan Menteri.",
+   "page_idx": 4
+  },
+  {
+   "type": "text",
+   "text": "Pasal 5",
+   "page_idx": 4,
+   "text_level": 2
+  },
+  {
+   "type": "text",
+   "text": "(1) RPJM Nasional sebagaimana dimaksud dalam Pasal 2 ayat (1) terdiri atas:",
+   "page_idx": 4
+  },
+  {
+   "type": "text",
+   "text": "a. narasi RPJM Nasional Tahun 2025—2029 yang memuat evaluasi dan tantangan pembangunan, kebijakan pembangunan, prioritas nasional, arah pembangunan wilayah, pendanaan pembangunan, pengendalian, evaluasi, dan tata kelola data pembangunan; b. matriks",
+   "page_idx": 4
+  },
+  {
+   "type": "text",
+   "text": "PRESIDEN REPUBLIK INDONESIA",
+   "page_idx": 5
+  },
+  {
+   "type": "text",
+   "text": "b. matriks pembangunan RPJM Nasional Tahun 2025—2029;",
+   "page_idx": 5
+  },
+  {
+   "type": "text",
+   "text": "c. matriks kementerian/lembaga RPJM Nasional Tahun 2025—2029; dan",
+   "page_idx": 5
+  },
+  {
+   "type": "text",
+   "text": "d. arah pembangunan kewilayahan RPJM Nasional Tahun 2025—2029;",
+   "page_idx": 5
+  },
+  {
+   "type": "text",
+   "text": "(2) Narasi RPJM Nasional Tahun 2025—2029 sebagaimana dimaksud pada ayat (1) huruf a tercantum dalam Lampiran I yang merupakan bagian tidak terpisahkan dari Peraturan Presiden ini.",
+   "page_idx": 5
+  },
+  {
+   "type": "text",
+   "text": "(3) Matriks pembangunan RPJM Nasional Tahun 2025—2029 sebagaimana dimaksud pada ayat (1) huruf b tercantum dalam Lampiran II yang merupakan bagian tidak terpisahkan dari Peraturan Presiden ini.",
+   "page_idx": 5
+  },
+  {
+   "type": "text",
+   "text": "(4) Matriks kementerian/lembaga RPJM Nasional Tahun 2025—2029 sebagaimana dimaksud pada ayat (1) huruf C tercantum pada Lampiran III yang merupakan bagian tidak terpisahkan dari Peraturan Presiden ini.",
+   "page_idx": 5
+  },
+  {
+   "type": "text",
+   "text": "(5) Arah pembangunan kewilayahan RPJM Nasional Tahun 2025—2029 sebagaimana dimaksud pada ayat (1) huruf d tercantum dalam lampiran IV yang merupakan bagian tidak terpisahkan dari Peraturan Presiden ini.",
+   "page_idx": 5
+  },
+  {
+   "type": "text",
+   "text": "Pasal 6",
+   "page_idx": 5,
+   "text_level": 2
+  },
+  {
+   "type": "text",
+   "text": "(1) Target dan kebutuhan pendanaan yang terdapat dalam RPJM Nasional bersifat indikatif.",
+   "page_idx": 5
+  },
+  {
+   "type": "text",
+   "text": "(2) Perubahan target dan kebutuhan pendanaan sebagaimana dimaksud pada ayat (1) yang terjadi pada setiap tahun pelaksanaan RPJM Nasional disampaikan oleh Menteri kepada Presiden dalam sidang kabinet untuk mendapatkan keputusan.",
+   "page_idx": 5
+  },
+  {
+   "type": "text",
+   "text": "(3) Perubahan sebagaimana dimaksud pada ayat (2) dituangkan dalam RKP.",
+   "page_idx": 5
+  },
+  {
+   "type": "text",
+   "text": "Pasal 7",
+   "page_idx": 5,
+   "text_level": 2
+  },
+  {
+   "type": "text",
+   "text": "Peraturan Presiden ini mulai berlaku pada tanggal diundangkan.",
+   "page_idx": 5
+  },
+  {
+   "type": "text",
+   "text": "Agar",
+   "page_idx": 5
+  },
+  {
+   "type": "text",
+   "text": "PRESIDEN REPUBLIK INDONESIA",
+   "page_idx": 6
+  },
+  {
+   "type": "text",
+   "text": "Agar setiap orang mengetahuinya, memerintahkan pengundangan Peraturan Presiden ini dengan penempatannya dalam Lembaran Negara Republik Indonesia.",
+   "page_idx": 6
+  },
+  {
+   "type": "text",
+   "text": "Ditetapkan di Jakarta pada tanggal 10 Februari 2025 PRESIDEN REPUBLIK INDONESIA, ttd. PRABOWO SUBIANTO",
+   "page_idx": 6
+  },
+  {
+   "type": "text",
+   "text": "Diundangkan di Jakarta pada tanggal 10 Februari 2025",
+   "page_idx": 6
+  },
+  {
+   "type": "text",
+   "text": "MENTERI SEKRETARIS NEGARA REPUBLIK INDONESIA, ttd. PRASETYO HADI",
+   "page_idx": 6
+  },
+  {
+   "type": "text",
+   "text": "LEMBARAN NEGARA REPUBLIK INDONESIA TAHUN 2025 NOMOR 19",
+   "page_idx": 6
+  },
+  {
+   "type": "text",
+   "text": "Salinan sesuai dengan aslinya KEMENTERIAN SEKRETARIAT NEGARA REPUBLIK INDONESIA Deputi Bidang Perundang-undangan dan Administrasi Hukum,",
+   "page_idx": 6
+  },
+  {
+   "type": "image",
+   "img_path": "figure_p6_89ee1fdf.jpg",
+   "image_caption": null,
+   "image_footnote": null,
+   "page_idx": 6,
+   "img_size": [
+    646,
+    670
+   ]
+  },
+  {
+   "type": "text",
+   "text": "ydia Silvanna Djaman",
+   "page_idx": 6
+  }
+ ],
+ "elapsed_s": 71.8
+}

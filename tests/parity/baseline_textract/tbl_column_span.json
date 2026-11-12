@@ -1,0 +1,72 @@
+{
+ "ok": true,
+ "items": [
+  {
+   "type": "text",
+   "text": "The sample size required for each State for various investigations among different target groups of individuals are given below:",
+   "page_idx": 0
+  },
+  {
+   "type": "table",
+   "table_body": "| **Investigations** | **No. of HHs** | **Age/Sex/ Physiological Group** | **Preva- lence** | **C.I*** | **Relative Precision** | **Sample size per State** |\n|---|---|---|---|---|---|---|\n| Anthropometry |  |  |  |  |  |  |\n| Clinical Examination | 2400 | All the | available | individuals |  |  |\n| History of morbidity |  |  |  |  |  |  |\n| Diet survey | 1200 | All the individuals | partaking meals | in the | HH |  |\n|  |  | Men (≥ 18yrs) |  |  |  | 1728 |\n| Blood Pressure # | 2400 | Women (≥ 18 yrs) | 10% | 95% | 20% | 1728 |\n|  |  | Men (≥ 18 yrs) |  |  |  | 1825 |\n| Fasting blood glucose | 2400 | Women (≥ 18 yrs) | 5% | 95% | 20% | 1825 |\n| Knowledge & Practices on HTN & | 2400 | Men (≥ 18 yrs) | - | - | - | 1728 |\n| DM | 2400 | Women (≥ 18 yrs) | - | - | - | 1728 |",
+   "table_caption": [
+    "The sample size required for each State for various investigations among different target groups of individuals are given below:"
+   ],
+   "table_footnote": [
+    "*CI: Confidence Interval",
+    "# Design effect 2"
+   ],
+   "page_idx": 0
+  },
+  {
+   "type": "text",
+   "text": "*CI: Confidence Interval # Design effect 2",
+   "page_idx": 0
+  },
+  {
+   "type": "text",
+   "text": "3.4.2. Measurement of blood pressure",
+   "page_idx": 0,
+   "text_level": 2
+  },
+  {
+   "type": "text",
+   "text": "Earlier studies have revealed that the prevalence of hypertension among the rural adults of ≥18 years in the State of Gujarat was 10%³ which was lowest compared to other NNMB States. Assuming 10% prevalence of hypertension among rural adults, with 95% confidence interval, 20% relative precision and design effect of 2, the sample size computed for each State was 1,728 adults in each gender.",
+   "page_idx": 0
+  },
+  {
+   "type": "text",
+   "text": "3.4.3. Estimation of fasting blood glucose",
+   "page_idx": 0,
+   "text_level": 2
+  },
+  {
+   "type": "text",
+   "text": "Earlier studies have revealed that the overall prevalence of diabetes among the rural adults of ≥18 years was about 5%³. Assuming 5% prevalence of diabetes among rural adults, with 95% confidence interval and 20% relative precision, the sample size computed was 1,825 adults in each gender.",
+   "page_idx": 0
+  },
+  {
+   "type": "text",
+   "text": "3.5. Investigations",
+   "page_idx": 0,
+   "text_level": 2
+  },
+  {
+   "type": "text",
+   "text": "The following investigations were carried out in the selected HHs:",
+   "page_idx": 0
+  },
+  {
+   "type": "text",
+   "text": "3.5.1. Socio-economic and demographic particulars of households",
+   "page_idx": 0,
+   "text_level": 2
+  },
+  {
+   "type": "text",
+   "text": "Socioeconomic and demographic particulars, such as age, sex, occupation, annual family income, family size, type of family, literacy level of individuals, information about possession of agricultural land, types of crops raised, their yield during previous year, live stock, type of dwelling, environmental sanitation etc. from all the selected 20 HHs were collected using pre-tested questionnaires.",
+   "page_idx": 0
+  }
+ ],
+ "elapsed_s": 26.5
+}

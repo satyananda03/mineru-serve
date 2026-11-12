@@ -1,0 +1,45 @@
+[project]
+name = "mineru-serve"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+    "boto3>=1.43.48",
+    "fastapi>=0.162.5",
+    "mineru>=4.1.7",
+    "onnxruntime>=1.31.1",
+    "pillow>=12.3.0",
+    "pymupdf>=2.1",
+    "python-dotenv>=1.2.2",
+    "python-multipart>=0.0.33",
+    "uvicorn>=0.54.0",
+]
+
+# Pick one: `uv sync --extra cpu` or `uv sync --extra gpu`
+[project.optional-dependencies]
+cpu = ["mineru[torch]>=4.1.7", "torch", "torchvision"]
+gpu = ["mineru[torch]>=4.1.7", "torch", "torchvision"]
+
+[tool.uv]
+conflicts = [[{ extra = "cpu" }, { extra = "gpu" }]]
+
+[[tool.uv.index]]
+name = "pytorch-cpu"
+url = "https://download.pytorch.org/whl/cpu"
+explicit = true
+
+[[tool.uv.index]]
+name = "pytorch-cu130"
+url = "https://download.pytorch.org/whl/cu130"
+explicit = true
+
+[tool.uv.sources]
+torch = [
+    { index = "pytorch-cpu", extra = "cpu" },
+    { index = "pytorch-cu130", extra = "gpu" },
+]
+torchvision = [
+    { index = "pytorch-cpu", extra = "cpu" },
+    { index = "pytorch-cu130", extra = "gpu" },
+]

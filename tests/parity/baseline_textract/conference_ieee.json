@@ -1,0 +1,314 @@
+{
+ "ok": true,
+ "items": [
+  {
+   "type": "text",
+   "text": "ReConTrace: Retrieval Consistency Analysis for Hallucination and Memory Contamination in Long-Term LLM Agents",
+   "page_idx": 0,
+   "text_level": 1
+  },
+  {
+   "type": "text",
+   "text": "Sepyan Purnama Kristanto**, Lutfi Hakim*, Dianni Yusuf*, Moh Erdda Habibi⁺, Junaedi Adi Prasetyo+ * *Department of Software Engineering Technology, Politeknik Negeri Banyuwangi, Banyuwangi, Indonesia Email: {sepyan.kristanto, lutfi, dianniyusuf}@poliwangi.ac.id Department of Informatics, Bina Nusantara University, Jakarta, Indonesia Email: moh.erdda@binus.ac.id Department of Electrical Engineering, Digital Telecommunications Network Program, Politeknik Negeri Malang, Malang, Indonesia Email: junaedi.prasetyo@polinema.ac.id",
+   "page_idx": 0
+  },
+  {
+   "type": "text",
+   "text": "Abstract-Long-horizon LLM agents rely on episodic retrieval- augmented memory. Two failure modes compound: intrinsic hallucination and memory contamination. Errors written back into memory cause cascading epistemic decay. We propose RECONTRACE, a reference-free framework that detects and attributes both failures in real time. It combines dual-query probing with a Three-Partition Consistency Graph (TPCG) over queries, memory chunks, and atomic claims. Contradiction- attenuated edge weights yield a normalized graph Laplacian whose Fiedler eigenvalue X₂ quantifies retrieval coherence. A cal- ibrated logistic classifier maps spectral and provenance features to four states: Clean (C₀), Hallucination (C₁), Temporal (C₂), or Cross-Session (C₃). Reflection poisoning is an ingestion pathway, not a class. On LONGAGENT-RECONBENCH (1,200 trajectories, k=0.84), RECONTRACE reaches AUROC 0.942 (F1 90.0%) on contamination and 0.938 (F1 88.6%) on hallucination detection- +10.4 pp AUROC over SelfCheckGPT-at 64.2 ms per turn, zero extra LLM calls. Active memory purification raises 100-turn task success from 63.8% to 89.2%.",
+   "page_idx": 0
+  },
+  {
+   "type": "text",
+   "text": "Index Terms-Long-term LLM agents, episodic memory, hallu- cination detection, memory contamination, spectral graph theory, retrieval consistency.",
+   "page_idx": 0
+  },
+  {
+   "type": "text",
+   "text": "I. INTRODUCTION",
+   "page_idx": 0,
+   "text_level": 2
+  },
+  {
+   "type": "text",
+   "text": "LLM-based autonomous agents increasingly run long- horizon tasks in healthcare, law, and public administration [1], [2]. Because context windows are finite, they externalise conversational history into episodic vector memory [3], [4]. Each turn: retrieve top-k chunks by cosine similarity [5], then generate Yₜ from them. This architecture is vulnerable. Two failure modes corrupt reasoning: (1) Intrinsic Hallucination- claims contradicting the retrieved context, from decoding noise or parametric bias [6], [7]; (2) Memory Contamination- stored chunks now obsolete, contradictory, or cross-pollinated from other sessions [8], [9]. Self-reflection compounds both: erroneous Yₜ written back to memory becomes future ground truth [2], [4], [10], [11], causing monotonic epistemic decay (Fig. 1(a)).",
+   "page_idx": 0
+  },
+  {
+   "type": "text",
+   "text": "Existing detectors (SELFCHECKGPT [12], FACTSCORE [13]) assume a single static turn. They cannot separate confabulation from reasoning over a corrupted store-and multi-sample consistency costs 3-5 extra LLM calls per turn.",
+   "page_idx": 0
+  },
+  {
+   "type": "text",
+   "text": "To address these limitations, we present RECONTRACE (Retrieval Consistency Trace), an external-reference-free framework for real-time failure detection and attribution (Fig. 1(b)), organized around two research questions:",
+   "page_idx": 0
+  },
+  {
+   "type": "text",
+   "text": "RQ1: Can retrieval contamination and intrinsic hallucina- tion be topologically distinguished without any external reference corpus?",
+   "page_idx": 0
+  },
+  {
+   "type": "text",
+   "text": "RQ2: How reliably does contradiction-attenuated spec- tral connectivity (X₂) predict downstream agent memory stability?",
+   "page_idx": 0
+  },
+  {
+   "type": "text",
+   "text": "Our primary contributions are:",
+   "page_idx": 0
+  },
+  {
+   "type": "text",
+   "text": "Three-Partition Consistency Graph (TPCG): Query probes, retrieved chunks, and atomic claims are orga- nized into a three-partition graph with non-negative, contradiction-attenuated edge weights.",
+   "page_idx": 0
+  },
+  {
+   "type": "text",
+   "text": "Spectral Coherence Metric: Retrieval contamination creates topological bottlenecks in the TPCG, detectable via the Fiedler eigenvalue X₂ of its normalized Laplacian.",
+   "page_idx": 0
+  },
+  {
+   "type": "text",
+   "text": "Failure-Origin Attribution: A calibrated logistic classi- fier over spectral and provenance features distinguishes C₀₋C₃ epistemic states.",
+   "page_idx": 0
+  },
+  {
+   "type": "text",
+   "text": "We evaluate on LONGAGENT-RECONBENCH-1,200 tra- jectories / 81,370 chunks across four domains, 12 specialist annotators (K=0.84): RECONTRACE outperforms all seven baselines at 64.2 ms/turn (zero extra LLM calls) and raises 100-turn task success by +25.4 pp.",
+   "page_idx": 0
+  },
+  {
+   "type": "text",
+   "text": "II. RELATED WORK",
+   "page_idx": 1,
+   "text_level": 2
+  },
+  {
+   "type": "text",
+   "text": "A. Hallucination Detection in LLMs",
+   "page_idx": 1,
+   "text_level": 2
+  },
+  {
+   "type": "text",
+   "text": "FACTSCORE [13] verifies atomic claims against Wikipedia; SELFCHECKGPT [12] measures cross-sample consistency. All assume a static single-turn context: when retrieved context it- self is corrupted, they cannot distinguish internal confabulation from faithful reasoning over a contaminated store.",
+   "page_idx": 1
+  },
+  {
+   "type": "text",
+   "text": "B. Memory Security in Agentic Systems",
+   "page_idx": 1,
+   "text_level": 2
+  },
+  {
+   "type": "text",
+   "text": "MemGPT [2], MemoryBank [3], and Reflexion [4] establish foundational agent memory. AgentPoison [10], BadAgent [9], Pulipaka et al. [11], and MemSecBench [8] target adversarial poisoning and repair. RECONTRACE instead addresses non- adversarial epistemic drift without ground-truth labels at infer- ence time.",
+   "page_idx": 1
+  },
+  {
+   "type": "text",
+   "text": "C. RAG Robustness and Knowledge-Conflict Resolution",
+   "page_idx": 1,
+   "text_level": 2
+  },
+  {
+   "type": "text",
+   "text": "FLARE [14] retrieves on demand, Self-RAG [15] critiques its own passages, and Astute RAG [16] resolves knowledge conflicts-all within one turn over an immutable corpus. RECONTRACE complements them by auditing the retrieval substrate across turns and routing to mode-specific repairs (invalidation, re-scoping, regeneration) rather than uniform re- retrieval.",
+   "page_idx": 1
+  },
+  {
+   "type": "text",
+   "text": "D. Spectral Graph Methods in NLP",
+   "page_idx": 1,
+   "text_level": 2
+  },
+  {
+   "type": "text",
+   "text": "Spectral graph theory underpins clustering and community detection in language data [17], [18]. The Fiedler eigenvalue X₂ [19] bounds conductance via Cheeger's inequality [20]. Graph-RAG [21] uses knowledge graphs for summarization; Binkowski et al. [22] apply spectral attention features to detect hallucination in single-turn LLM outputs. We extend spectral analysis to the heterogeneous retrieval-interaction manifold, directly linking X₂ to multi-turn epistemic integrity.",
+   "page_idx": 1
+  },
+  {
+   "type": "text",
+   "text": "III. METHODS",
+   "page_idx": 1,
+   "text_level": 2
+  },
+  {
+   "type": "text",
+   "text": "A. Problem Formulation & Failure Taxonomy",
+   "page_idx": 1,
+   "text_level": 2
+  },
+  {
+   "type": "text",
+   "text": "1) Episodic Memory Agent Model: We consider an agent operating over a sequence of interaction turns t ε {1, T}. The agent maintains an episodic memory store Mₜ = {mᵢ = |Mₜ| , where Sᵢ ε S is textual content, eᵢ = E(sᵢ) ε Rᵈ is its dense embedding, and Tᵢ ε N denotes the ingestion timestamp.",
+   "page_idx": 1
+  },
+  {
+   "type": "text",
+   "text": "At each turn t, given query qₜ, the retriever selects the top-k chunks by cosine similarity: (1) The agent then generates Yₜ ~ and a reflec- tion routine extends the store: Mₜ₊₁ = Mₜ U Reflect",
+   "page_idx": 1
+  },
+  {
+   "type": "text",
+   "text": "2) Epistemic Failure Taxonomy: We define four mutually exclusive epistemic states for agent output Yₜ:",
+   "page_idx": 1
+  },
+  {
+   "type": "text",
+   "text": "C₀ (Clean): Yₜ is factually grounded and supported by uncontaminated chunks in Mₜ.",
+   "page_idx": 1
+  },
+  {
+   "type": "text",
+   "text": "C₁ (Intrinsic Hallucination): Yₜ contains assertions that are unsupported by, or that contradict, valid retrieved chunks, owing to decoding error or parametric bias.",
+   "page_idx": 1
+  },
+  {
+   "type": "text",
+   "text": "C₂ (Temporal Contamination): Yₜ is grounded in chunks m ε Mₜₖ that were accurate at ingestion time Tₘ but have since been invalidated by world-state updates.",
+   "page_idx": 1
+  },
+  {
+   "type": "text",
+   "text": "C₃ (Cross-Session Contamination): Yₜ is tainted by chunks from a semantically unrelated session that collide in the embedding space.",
+   "page_idx": 1
+  },
+  {
+   "type": "text",
+   "text": "Reflection Poisoning as a Provenance Pathway. We do not",
+   "page_idx": 1,
+   "text_level": 2
+  },
+  {
+   "type": "text",
+   "text": "treat reflection poisoning as a separate epistemic state. Instead, it is the ingestion mechanism through which a C₁ hallucination is written into Mₜ and subsequently retrieved as C₂ or C₃ contamination in later turns.",
+   "page_idx": 1
+  },
+  {
+   "type": "text",
+   "text": "Scope of the C₂ definition. RECONTRACE detects internal inconsistency-a chunk contradicted by a more recent one. It does not certify world state. Evaluation scores this signal against the simulation's update log-the ground truth for temporal invalidity (Table I).",
+   "page_idx": 1
+  },
+  {
+   "type": "text",
+   "text": "Proposition 1 (Autoregressive Error Cascade): In an unmon- itored agent where Mₜ₊₁ = Mₜ U {yₜ}, if turn t generates an ungrounded claim with probability Perr, the probability that retrieved context at turn t + h contains at least one corrupted chunk satisfies: h ≈ (2) where πⱼ is the retrieval probability of the memory chunk ingested from turn j's output Yⱼ. With sustained retrieval of corrupted memory, the probability of encountering at least one corrupted chunk rises monotonically with the horizon.",
+   "page_idx": 1
+  },
+  {
+   "type": "text",
+   "text": "Proof sketch: assuming approximate conditional indepen- dence of retrieval errors across distant turns, the probability of a fully clean context over h steps is and the bound 1 - x ≤ yields Eq. 2-corruption probability accumulates monotonically as h → ∞. Plainly: without an explicit audit gate, epistemic decay is inevitable.",
+   "page_idx": 1
+  },
+  {
+   "type": "text",
+   "text": "B. The ReConTrace Framework",
+   "page_idx": 1,
+   "text_level": 2
+  },
+  {
+   "type": "text",
+   "text": "RECONTRACE runs at inference time in four sequential stages (Fig. 1(b)): dual-query probing, consistency graph con- struction, spectral Laplacian decomposition, and failure-origin attribution.",
+   "page_idx": 1
+  },
+  {
+   "type": "text",
+   "text": "1) Stage 1: Dual-Query Probing: Two deterministic rule- based probes of qt (zero extra LLM calls) are used: the paraphrase probe qpara rewrites qt preserving meaning, and the counterfactual probe qcf perturbs key entities or temporal qualifiers. Each probe retrieves an independent memory set, yielding Semantic Invariance Isεm = cos(ē(Mq),ē(Mqar))- retrieval stability under paraphrase-and Counterfactual Sensi- tivity Scf = 1 - cos(ē(Mq), (Mqcf)) sharply retrieval",
+   "page_idx": 1
+  },
+  {
+   "type": "text",
+   "text": "(a) Memory Pathology & Autoregressive Contamination",
+   "page_idx": 2
+  },
+  {
+   "type": "image",
+   "img_path": "figure_p2_d4b34ce1.jpg",
+   "image_caption": null,
+   "image_footnote": null,
+   "page_idx": 2,
+   "img_size": [
+    2764,
+    688
+   ]
+  },
+  {
+   "type": "text",
+   "text": "(b) ReConTrace Reference-Free Verification & Disentanglement Pipeline",
+   "page_idx": 2
+  },
+  {
+   "type": "text",
+   "text": "Fig. 1. Unified RECONTRACE architecture. (a) Autoregressive memory pathology: unverified generations are ingested as episodic memory and compound into contamination. (b) The reference-free framework: dual-query probing Three-Partition Consistency Graph normalized Laplacian X₂ calibrated attribution C₀₋C₃ active purification.",
+   "page_idx": 2
+  },
+  {
+   "type": "text",
+   "text": "shifts under factual perturbation, where (M) is the mean chunk embedding. They combine into the Contextual Probing Index ΔCPI = 1 (Iₛₑₘ + Scf), high when retrieval is healthy and low/unstable when contaminated.",
+   "page_idx": 2
+  },
+  {
+   "type": "text",
+   "text": "2) Stage 2: Three-Partition Consistency Graph (TPCG): The epistemic context at turn t is a three-partition graph Gₜ = (v, W) with v = VQ U Vc: query probes VQ = qcf} retrieved chunks VM = {m₁, mₖ}; atomic claims vc = {c₁ from dependency parsing of Yₜ.",
+   "page_idx": 2
+  },
+  {
+   "type": "text",
+   "text": "Edge Weights. All weights satisfy Wᵤ,ᵥ ≥ 0: query-memory",
+   "page_idx": 2,
+   "text_level": 2
+  },
+  {
+   "type": "text",
+   "text": "edges Wqₗ,ₘᵢ = = max(0,cos(E(q1),eᵢ)); memory-claim edges",
+   "page_idx": 2
+  },
+  {
+   "type": "text",
+   "text": "Wₘᵢ,cⱼ = via a DeBERTa-v3 cross-",
+   "page_idx": 2
+  },
+  {
+   "type": "text",
+   "text": "Wₘᵢ,ₘⱼ = max(0,cos(eᵢ,eⱼ)) [1- Pcontr(mᵢ,mj)], = (3) where Pᶜₒₙₜᵣ ε [0,1] is the cross-encoder contradiction score. When Pᶜₒₙₜᵣ 1, the intra-memory edge collapses to zero without introducing illegal negative weights. Because entail- ment scores are directional, the memory-claim edges are symmetrized before spectral analysis: W = + (4) symmetric and non-negative by construction, retaining the weaker NLI direction (an edge survives only if entailment holds on average in both readings).",
+   "page_idx": 2
+  },
+  {
+   "type": "text",
+   "text": "3) Stage 3: Spectral Laplacian Decomposition: Given ad- jacency matrix W ε R >0 |V|X|V| X we define diagonal degree matrix Dᵤᵤ = Σᵥεᵥ Wᵤᵥ. For isolated nodes (dᵤ = 0, e.g., unsupported claims), we adopt the standard regularized spectral convention [17]: (5) where Γ is the diagonal indicator matrix (Γᵤᵤ = 1 if dᵤ > 0, else 0; not the all-ones matrix)-equivalently, the standard Moore-Penrose pseudo-inverse convention for D written explicitly, with D⁻¹/² = 0 for dᵤ = 0. This guarantees that isolated claim vertices induce zero eigenvalues, directly forc- ing X₂ → 0 when claims disconnect from memory. Because Wᵤ,ᵥ ≥ 0, Lₛyₘ is positive semi-definite with real eigenvalues O II τ VI VI VI 1aly VI 2.",
+   "page_idx": 2
+  },
+  {
+   "type": "text",
+   "text": "encoder; intra-memory weights attenuate contradiction:",
+   "page_idx": 2
+  },
+  {
+   "type": "text",
+   "text": "(a) Score Density",
+   "page_idx": 2
+  },
+  {
+   "type": "text",
+   "text": "Clean (C₀) Contamination (C₂/₃) Hallucination (C₁)",
+   "page_idx": 2
+  },
+  {
+   "type": "text",
+   "text": "Fig. 2. Detection Performance (measured on the oracle-free replication pilot, 5,391 held-out turns). (a) SRCA density by class from actual test-turn scores. (b) ROC curves: full feature pipeline (AUROC 0.871; shown via its monotone SRCA projection, 0.921), NLI-only baseline (0.889), embedding- margin baseline (0.500). On the precision-recall frontier (area under the PR curve), RECONTRACE attains 0.776 vs. 0.662/0.614 for the NLI/embedding baselines.",
+   "page_idx": 2
+  },
+  {
+   "type": "text",
+   "text": "The second-smallest eigenvalue X₂(Gₜ)—the Fiedler value-bounds conductance [20] (X₂/₂ ≤ h(Gₜ) ≤ √2X₂). Mutually supporting evidence yields large X₂; contradictions or unsupported claims fracture the graph, driving X₂ → 0. We map X₂ to a normalized score: (6) where ß > 0 is calibrated on validation trajectories (ß = 3.2). The composite Retrieval Consistency Score is: (7) with α = 0.65 tuned on validation data; SRCA is high only when evidence is both spectrally unified and stable under probing.",
+   "page_idx": 2
+  },
+  {
+   "type": "text",
+   "text": "4) Stage 4: Failure-Origin Attribution Classifier: RECON- TRACE forms a 6-dimensional feature vector decoupling spec-",
+   "page_idx": 2
+  }
+ ],
+ "elapsed_s": 83.5
+}

@@ -1,0 +1,54 @@
+{
+ "ok": true,
+ "items": [
+  {
+   "type": "text",
+   "text": "PARTICIPACIÓN DE LAS EXPORTACIONES PESQUERAS",
+   "page_idx": 0,
+   "text_level": 2
+  },
+  {
+   "type": "text",
+   "text": "2001-07",
+   "page_idx": 0
+  },
+  {
+   "type": "table",
+   "table_body": "|  |  | **2001** |  | **2002** |  | **2003** |  | **2004** |  | **2005** | **2006** |  | **2007** |  |\n|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|\n| **Clasificación por grandes rubros** | **Mill. u$s** | **Part.** | **Mill. u$s** | **Part.** | **Mill. u$s** | **Part.** | **Mill. u$s** | **Part.** | **Mill. u$s** | **Part.** | **Mill. u$s** | **Part.** | **Mill. u$s** | **Part.** |\n| Productos primarios pesqueros | 663 | 2.5% | 478 | 1.9% | 619 | 2.1% | 474 | 1.4% | 439 | 1.1% | 804 | 1.7% | 543 | 1.0% |\n| MOA pesquero | 232 | 0.9% | 241 | 0.9% | 267 | 0.9% | 343 | 1.0% | 372 | 0.9% | 445 | 1.0% | 61 | 1.0% |\n| Exportaciones totales pesqueras | 895 | 3.4% | 718 | 2.8% | 886 | 3.0% | 817 | 2.4% | 811 | 2.0% | 1,249 | 2.7% | 1,104 | 2.0% |\n| EXPORT. TOTALES | 26,610 |  | 25,709 |  | 29,565 |  | 34,453 |  | 40,106 |  | 46,569 |  | 55,933 |  |",
+   "table_caption": [
+    "PARTICIPACIÓN DE LAS EXPORTACIONES PESQUERAS"
+   ],
+   "table_footnote": [
+    "Elaborado por la SSPyA en base a datos del INDEC.",
+    "Los datos corresponden a exportaciones, no se encuentran relacionados con producción ni capturas."
+   ],
+   "page_idx": 0
+  },
+  {
+   "type": "text",
+   "text": "Elaborado por la SSPyA en base a datos del INDEC. Los datos corresponden a exportaciones, no se encuentran relacionados con producción ni capturas.",
+   "page_idx": 0
+  },
+  {
+   "type": "text",
+   "text": "EXPORTACIONES POR PARTIDAS ARANCELARIAS",
+   "page_idx": 0,
+   "text_level": 2
+  },
+  {
+   "type": "text",
+   "text": "2001-07",
+   "page_idx": 0
+  },
+  {
+   "type": "table",
+   "table_body": "|  |  | **2001** |  | **2002** |  | **2003** |  | **2004** |  | **2005** |  | **2006** |  | **2007** |  |\n|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|\n| **Partida** | **Descripción** | **TM** | **M.U$S** | **TM** | **M.U$S** | **TM** | **M.U$S** | **TM** | **M.U$S** | **TM** | **M.U$S** | **TM** | **M.U$S** | **TM** | **M.U$S** |\n| 0301 | Peces vivos | 1 | 25 | 1 | 23 | 2 | 38 | 1 | 37 | 2 | 67 | 2 | 89 | 1 | 61 |\n| 0302 | Pescado fresco o refrigerado. exc. filetes | 7.704 | 7.175 | 8.931 | 6.892 | 12.635 | 10.255 | 16.742 | 13.688 | 14.357 | 11.674 | 13.035 | 13.429 | 9.727 | 14.541 |\n| 0303 | Pescado congelado exc. filetes | 90.560 | 105.950 | 112.645 | 108.416 | 132.895 | 115.874 | 152.767 | 133.765 | 148.882 | 134.847 | 156.619 | 165.134 | 137.179 | 187.043 |\n| 0304 | Filetes y demás car- nes de pescado | 105.434 | 200.563 | 151.142 | 218.389 | 152.174 | 227.780 | 178.123 | 291.863 | 169.422 | 313.735 | 176.427 | 381.640 | 144.814 | 384.955 |\n| 0305 | Pescado sec./sal./ en salm. har./pol./ pell. aptos p/c humano | 6.837 | 14.493 | 6.660 | 9.167 | 14.630 | 17.579 | 18.150 | 21.302 | 18.197 | 25.739 | 13.460 | 23.549 | 11.709 | 23.092 |\n| 0306 | Crustáceos | 61.691 | 375.798 | 52.488 | 251.043 | 47.635 | 387.783 | 27.815 | 217.443 | 7.123 | 86.019 | 39.488 | 373.583 | 45.191 | 290.333 |\n| 0307 | Moluscos | 162.027 | 174.507 | 109.436 | 111.443 | 90.834 | 104.741 | 57.695 | 109.141 | 98.182 | 206.304 | 187.023 | 251.352 | 157.531 | 166.081 |\n| 0511.91 | Prod. no exp. en otros capítulos. No apto p/c humano | 203 | 328 | 7 | 35 | 521 | 343 | 1,710 | 1,568 | 125 | 246 | 124 | 263 | 131 | 344 |\n| 1504 | Grasas y aceites de pescado y mamíferos marinos | 913 | 297 | 1,250 | 476 | 1,031 | 521 | 1,019 | 642 | 690 | 483 | 489 | 710 | 959 | 923 |\n| 1603.00.00 | Extractos y jugos de pescado y mariscos | 5 | 25 | 1 | 3 | 4 | 4 | 31 | 93 | 39 | 117 | 77 | 230 | 80 | 268 |\n| 1604 | Preparaciones y con- servas de pescado | 846 | 3,737 | 1,688 | 4,411 | 1,556 | 3,681 | 2,292 | 5,474 | 2,167 | 7,494 | 2,591 | 8,833 | 2,795 | 10,050 |\n| 1605 | Preparaciones y con- servas de mariscos | 348 | 3,667 | 345 | 1,771 | 738 | 3,627 | 561 | 2,620 | 607 | 3,928 | 314 | 2,819 | 250 | 1,952 |\n| 2301.20 | Harina, polvo y pe- llets de pescado.No aptos p/c humano | 16,947 | 8,547 | 11,867 | 6,315 | 32,528 | 13,985 | 37,313 | 18,989 | 35,787 | 19,914 | 37,821 | 27,174 | 30,000 | 24,375 |\n|  | TOTAL | 453,515 | 895,111 | 456,431 | 718,382 | 487,183 | 886,211 | 494,220 | 816,623 | 495,580 | 810,565 | 627,469 | 1,248,804 | 540,367 | 1,104,018 |",
+   "table_caption": [
+    "EXPORTACIONES POR PARTIDAS ARANCELARIAS"
+   ],
+   "table_footnote": null,
+   "page_idx": 0
+  }
+ ],
+ "elapsed_s": 33.8
+}
