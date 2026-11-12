@@ -1,86 +1,84 @@
-"""POST /parse: unggah PDF, terima content list."""
-import logging
+"""Endpoint parse: unggah file → job; ambil status dan hasil job.
+
+Parsing bisa berjalan menit, jadi polanya asinkron: ``POST /parse`` mengembalikan ``job_id``, lalu
+pemanggil mengambil hasilnya di ``GET /parse/{job_id}``.
+"""
+import secrets
 import shutil
 import tempfile
-import time
 from pathlib import Path
 
-import pymupdf
-from fastapi import APIRouter, File, Form, HTTPException, Query, UploadFile
-from fastapi.responses import JSONResponse
+from fastapi import APIRouter, Depends, File, Form, Header, HTTPException, Request, UploadFile
 
-from src.modules.mineru_parser import parse_pdf, select_pages
-from src.storage.s3 import upload_figures_to_s3
-
-logger = logging.getLogger(__name__)
-router = APIRouter()
-
-# flash hanya membaca text layer; basic membiarkan MinerU memilih text layer atau OCR per halaman.
-OCR_MODE_BY_TIER = {"flash": "txt", "basic": "auto"}
+from src.core.config import settings
+from src.jobs.job_queue import Job, JobQueue
+from src.jobs.parse_job import ParseRequest
+from src.modules.contract import ParseOptions
+from src.modules.router import check_file, file_type, is_light
 
 
-@router.post("/parse", summary="Parse PDF dengan MinerU (tier: basic | flash)")
-@router.post("/api/v1/parse", include_in_schema=False)
-def parse_pdf_endpoint(
-    file: UploadFile = File(..., description="File PDF"),
-    tier: str = Form("basic", description="'basic' (default) atau 'flash'"),
-    pages: str | None = Form(None, description="Halaman 1-based, mis. '4', '1-3,8' atau 'all'"),
-    tier_query: str | None = Query(None, alias="tier", description="Menimpa tier dari form"),
-    pages_query: str | None = Query(None, alias="pages", description="Menimpa pages dari form"),
-) -> JSONResponse:
-    """Content list dokumen: item ``text``, ``table`` (markdown), ``image`` dan ``equation``.
+def require_api_key(x_api_key: str | None = Header(None)) -> None:
+    """Tolak pemanggil tanpa ``X-API-Key`` yang benar. Tanpa ``PARSER_API_KEY`` (lokal) tidak ada pemeriksaan."""
+    expected = settings.parser_api_key
+    if expected and not secrets.compare_digest(x_api_key or "", expected):
+        raise HTTPException(status_code=401, detail="X-API-Key tidak ada atau salah.")
 
-    Figure diunggah ke S3: ``img_path`` tiap item ``image`` adalah URL-nya.
 
-    - **basic**: OCR untuk halaman scan, struktur tabel dan rumus dikenali.
-    - **flash**: hanya text layer PDF; halaman scan keluar sebagai gambar tanpa teks.
+router = APIRouter(dependencies=[Depends(require_api_key)])
+
+
+def _job_queue(request: Request) -> JobQueue:
+    return request.app.state.jobs
+
+
+def _status(job: Job) -> dict:
+    return {"job_id": job.id, "status": job.status, "error": job.error, "result": job.result}
+
+
+@router.post("/parse", status_code=202, summary="Unggah file untuk diparse")
+def submit_parse(
+    request: Request,
+    file: UploadFile = File(..., description="pdf, docx, pptx, xlsx, gambar, md, txt, atau json content list"),
+    tier: str = Form("basic", description="'basic' (default) atau 'flash'; berlaku untuk PDF dan gambar"),
+    pages: str | None = Form(None, description="Halaman PDF 1-based, mis. '4' atau '1-3,8'; kosong = semua"),
+) -> dict:
+    """Mulai job parse; jawabannya ``{job_id, status, error, result}``.
+
+    File besar masuk antrean (``status: queued``). File ringan (md, txt, json) dikerjakan langsung,
+    jadi jawabannya sudah ``succeeded`` beserta ``result``.
     """
-    filename = Path(file.filename or "uploaded.pdf").name
-    if not filename.lower().endswith(".pdf"):
-        raise HTTPException(status_code=400, detail=f"'{filename}' bukan PDF. Unggah file .pdf.")
-    tier = (tier_query or tier or "basic").strip().lower()
-    if tier not in OCR_MODE_BY_TIER:
-        raise HTTPException(status_code=400, detail=f"tier='{tier}' tidak valid. Gunakan 'basic' atau 'flash'.")
-    ocr_mode = OCR_MODE_BY_TIER[tier]
-    pages = pages_query if pages_query is not None else pages
+    filename = Path(file.filename or "").name
+    try:
+        ext = file_type(filename)
+    except ValueError as error:
+        raise HTTPException(status_code=400, detail=str(error)) from error
 
-    started = time.perf_counter()
-    with tempfile.TemporaryDirectory(prefix="mineru_api_") as tmp_dir:
-        pdf_path = Path(tmp_dir) / filename
-        with open(pdf_path, "wb") as out:
-            shutil.copyfileobj(file.file, out)
-        try:
-            with pymupdf.open(pdf_path) as pdf:
-                page_count = len(pdf)
-        except Exception as error:
-            raise HTTPException(status_code=400, detail=f"File PDF tidak valid atau rusak: {error}") from error
-        try:
-            selected = select_pages(pages, page_count)
-        except ValueError as error:
-            raise HTTPException(status_code=400, detail=f"{error} (dokumen: {page_count} halaman)") from error
-        try:
-            items = parse_pdf(pdf_path, Path(tmp_dir) / "figures", tier=tier, ocr_mode=ocr_mode, pages=pages)
-        except Exception as error:
-            logger.exception("Gagal memproses '%s' dengan tier='%s'", filename, tier)
-            raise HTTPException(status_code=500, detail=f"Gagal memproses dokumen dengan MinerU: {error}") from error
-        try:
-            # Crop figure ada di tmp_dir yang terhapus setelah blok ini: klien hanya bisa membukanya lewat S3.
-            upload_figures_to_s3([item for item in items if item["type"] == "image"])
-        except Exception as error:
-            logger.exception("Gagal mengunggah figure '%s' ke S3", filename)
-            raise HTTPException(status_code=500, detail=f"Gagal mengunggah figure ke S3: {error}") from error
+    work_dir = Path(tempfile.mkdtemp(prefix="parser_job_"))
+    path = work_dir / "upload" / filename
+    path.parent.mkdir()
+    with open(path, "wb") as out:
+        shutil.copyfileobj(file.file, out)
+    options = ParseOptions(tier=tier.strip().lower(), pages=pages)
+    try:
+        check_file(path, options)
+    except ValueError as error:
+        shutil.rmtree(work_dir, ignore_errors=True)
+        raise HTTPException(status_code=400, detail=str(error)) from error
 
-    elapsed = round(time.perf_counter() - started, 3)
-    logger.info(
-        "[POST /parse] file='%s' tier='%s' halaman=%d item=%d elapsed=%ss",
-        filename, tier, len(selected), len(items), elapsed,
-    )
-    return JSONResponse(
-        content=items,
-        headers={
-            "X-MinerU-Tier": tier,
-            "X-MinerU-Parse-Mode": ocr_mode,
-            "X-MinerU-Elapsed-Seconds": str(elapsed),
-            "X-MinerU-Elements-Count": str(len(items)),
-        },
-    )
+    jobs = _job_queue(request)
+    parse_request = ParseRequest(path=path, work_dir=work_dir, options=options)
+    return _status(jobs.run_now(parse_request) if is_light(ext) else jobs.submit(parse_request))
+
+
+@router.get("/parse/{job_id}", summary="Status dan hasil job parse")
+def get_parse(job_id: str, request: Request) -> dict:
+    """``status``: ``queued`` → ``running`` → ``succeeded`` atau ``failed``.
+
+    Saat ``succeeded``, ``result`` berisi ``file_type``, ``layout`` (``document`` | ``slides`` |
+    ``sheet``), ``content_list`` (figure sudah berupa URL S3) dan ``elapsed_seconds``. Saat
+    ``failed``, ``error`` berisi sebabnya. Job hilang setelah server restart atau melewati masa simpan.
+    """
+    job = _job_queue(request).get(job_id)
+    if job is None:
+        raise HTTPException(status_code=404, detail=f"Job {job_id} tidak ditemukan (sudah kedaluwarsa atau server restart).")
+    return _status(job)

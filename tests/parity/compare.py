@@ -20,7 +20,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
 import pymupdf
 from PIL import Image
 
-from src.modules.mineru_parser import figures
+from src.modules import figures
 from tests.parity.cases import BASELINE, ROOT, WORK, prepare
 
 KNOWN_TYPES = {"text", "image", "table", "equation"}
@@ -107,7 +107,7 @@ def contract_problems(items: list[dict], images_on_disk: bool) -> collections.Co
             width, height = image_size(item)
             if not path.lower().endswith(".jpg"):
                 problems["gambar bukan JPEG"] += 1
-            if max(width, height) > figures.MAX_PIXELS or os.path.getsize(path) > figures.MAX_BYTES:
+            if max(width, height) > figures.FIGURE_MAX_PIXELS or os.path.getsize(path) > figures.FIGURE_MAX_BYTES:
                 problems["gambar melebihi batas VLM"] += 1
     return problems
 

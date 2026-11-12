@@ -9,7 +9,8 @@ from typing import Any, Callable, Iterator
 
 import pymupdf
 
-from .contract import ContentItem
+from src.modules.contract import ContentItem
+
 from .figures import crop_figure
 from .geometry import has_raster_image, page_rect, text_in_bbox, union_bbox
 from .tables import table_markdown

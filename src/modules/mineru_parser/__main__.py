@@ -14,7 +14,7 @@ def main() -> None:
     parser.add_argument("--output", type=Path, default=Path("content_list.json"), help="File JSON hasil")
     parser.add_argument("--pages", default=None, help="Halaman 1-based, mis. '1-5,8'. Default: semua")
     parser.add_argument("--tier", default="basic", choices=["flash", "basic"])
-    parser.add_argument("--ocr-mode", default="auto", choices=["auto", "txt", "ocr"])
+    parser.add_argument("--ocr-mode", default=None, choices=["auto", "txt", "ocr"], help="Default: mengikuti --tier")
     parser.add_argument("--image-dir", default="images", help="Folder crop figure (lokal; hanya API yang mengunggah ke S3)")
     args = parser.parse_args()
 

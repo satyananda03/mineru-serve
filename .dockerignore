@@ -1,0 +1,8 @@
+# Daftar izin: hanya yang dibutuhkan image yang masuk ke konteks build. Folder baru (dokumen uji,
+# hybrid_rag, hasil kerja) dan .env tidak pernah ikut terkirim tanpa disengaja.
+*
+!pyproject.toml
+!uv.lock
+!src/
+**/__pycache__
+**/*.pyc

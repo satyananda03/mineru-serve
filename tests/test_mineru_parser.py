@@ -12,7 +12,7 @@ import pymupdf
 from docvortex import schema
 from PIL import Image
 
-from src.modules.mineru_parser import figures
+from src.modules import figures
 from src.modules.mineru_parser.blocks import PageContext, block_to_items, inline_text, join_hyphenated_headings
 from src.modules.mineru_parser.page_furniture import content_blocks
 from src.modules.mineru_parser.tables import table_markdown
@@ -126,9 +126,9 @@ def test_large_figure_is_jpeg_with_list_caption_and_small_one_keeps_its_caption_
         (image,) = block_to_items(figure_block((0.1, 0.1, 0.9, 0.9)), ctx)
         assert image["type"] == "image" and image["image_caption"] == ["Gambar 3. Alur"] and image["image_footnote"] is None
         path = Path(image["img_path"])
-        assert path.is_absolute() and path.suffix == ".jpg" and path.stat().st_size <= figures.MAX_BYTES
+        assert path.is_absolute() and path.suffix == ".jpg" and path.stat().st_size <= figures.FIGURE_MAX_BYTES
         with Image.open(path) as saved:
-            assert max(saved.size) <= figures.MAX_PIXELS
+            assert max(saved.size) <= figures.FIGURE_MAX_PIXELS
         (caption,) = block_to_items(figure_block((0.1, 0.1, 0.15, 0.15)), ctx)  # ±0,4 inci: logo
         assert caption["type"] == "text" and caption["text"] == "Gambar 3. Alur"
 
@@ -136,9 +136,9 @@ def test_large_figure_is_jpeg_with_list_caption_and_small_one_keeps_its_caption_
 def test_oversized_image_is_shrunk_to_vlm_limits():
     with tempfile.TemporaryDirectory() as tmp_dir:
         path = figures.save_for_vlm(Image.effect_noise((5000, 3000), 80), Path(tmp_dir) / "big.jpg")
-        assert path.stat().st_size <= figures.MAX_BYTES
+        assert path.stat().st_size <= figures.FIGURE_MAX_BYTES
         with Image.open(path) as saved:
-            assert max(saved.size) <= figures.MAX_PIXELS
+            assert max(saved.size) <= figures.FIGURE_MAX_PIXELS
 
 
 def test_hyphenated_heading_is_joined():

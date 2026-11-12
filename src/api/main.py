@@ -1,42 +1,60 @@
-"""Aplikasi FastAPI layanan parser dokumen lokal (MinerU).
+"""Aplikasi FastAPI layanan parser dokumen.
 
 Jalankan dari root repo: ``uvicorn src.api.main:app`` atau ``python -m src.api.main``.
-Satu proses saja: tiap worker uvicorn memuat salinan modelnya sendiri.
+Satu proses saja: antrean job ada di memori proses ini, dan tiap proses memuat salinan modelnya sendiri.
 """
+import asyncio
+import logging
+import threading
 from contextlib import asynccontextmanager
 from typing import Any
 
 from fastapi import FastAPI
-from fastapi.middleware.cors import CORSMiddleware
 
 from src.api.routes.parse import router as parse_router
 from src.core.config import settings
 from src.core.logging import configure_logging
+from src.jobs import parse_job
+from src.jobs.job_queue import JobQueue
 from src.modules.mineru_parser.runtime import loaded_models
+from src.modules.router import SUPPORTED_EXTENSIONS
 
 configure_logging()
+logger = logging.getLogger(__name__)
+
+WORKER_STOP_TIMEOUT_SECONDS = 30
+
+
+def _work(app: FastAPI, jobs: JobQueue) -> None:
+    """Thread worker: memuat model MinerU, menahannya di memori, lalu mengerjakan job sampai dihentikan.
+
+    Model dimuat di thread ini karena thread inilah yang memakainya.
+    """
+    try:
+        with loaded_models() as status:
+            app.state.model_status = status
+            jobs.run()
+    except Exception as error:
+        logger.exception("Worker parse berhenti")
+        app.state.model_status = {"ready": False, "error": f"{type(error).__name__}: {error}"}
 
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    """Model dimuat sekali saat server menyala dan ditahan di memori sampai server mati."""
-    with loaded_models() as status:
-        app.state.model_status = status
-        yield
+    jobs = JobQueue(parse_job.run, ttl_seconds=settings.job_ttl_seconds)
+    app.state.jobs = jobs
+    worker = threading.Thread(target=_work, args=(app, jobs), name="parse-worker", daemon=True)
+    worker.start()
+    yield
+    jobs.stop()
+    await asyncio.to_thread(worker.join, WORKER_STOP_TIMEOUT_SECONDS)
 
 
 app = FastAPI(
-    title="MinerU Document Parser API",
-    description="Parser PDF lokal berbasis MinerU: PDF masuk, content list (text / table / image / equation) keluar.",
-    version="1.0.0",
+    title="Document Parser API",
+    description="Parser dokumen lokal: file masuk, content list (text / table / image / equation) beserta layout-nya keluar.",
+    version="2.0.0",
     lifespan=lifespan,
-)
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=["*"],
-    allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
 )
 app.include_router(parse_router)
 
@@ -44,14 +62,13 @@ app.include_router(parse_router)
 @app.get("/", summary="Status layanan dan model")
 @app.get("/health", summary="Health check")
 async def health_check() -> dict[str, Any]:
+    """``initializing`` selama model masih dimuat; job yang masuk saat itu menunggu di antrean."""
     status = getattr(app.state, "model_status", None) or {"ready": False}
     return {
         "status": "ok" if status.get("ready") else "initializing",
-        "service": "mineru-document-parser-api",
-        "supported_tiers": {
-            "basic": "Default. OCR untuk halaman scan, struktur tabel dan rumus dikenali.",
-            "flash": "Hanya text layer PDF; halaman scan keluar sebagai gambar tanpa teks.",
-        },
+        "service": "document-parser-api",
+        "supported_extensions": sorted(SUPPORTED_EXTENSIONS),
+        "jobs_pending": app.state.jobs.pending(),
         "model_singleton": status,
     }
 
