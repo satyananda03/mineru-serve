@@ -14,7 +14,6 @@ from src.modules.figures import host_figures
 from src.modules.images import parser as image_parser
 from src.modules.json import parser as json_parser
 from src.modules.markdown import parser as markdown_parser
-from src.modules.mineru_parser import OCR_MODE_BY_TIER
 from src.modules.offices import parser as office_parser
 from src.modules.offices.convert import SUPPORTED_EXTENSIONS as OFFICE_EXTENSIONS
 from src.modules.pdf import parser as pdf_parser
@@ -65,9 +64,10 @@ def is_light(ext: str) -> bool:
 
 
 def check_file(path: Path, options: ParseOptions) -> None:
-    """Tolak lebih awal yang pasti gagal: ``ValueError`` untuk tier tak dikenal atau file yang ditolak parsernya."""
-    if options.tier not in OCR_MODE_BY_TIER:
-        raise ValueError(f"tier='{options.tier}' tidak valid. Gunakan {' atau '.join(sorted(OCR_MODE_BY_TIER))}.")
+    """Tolak lebih awal yang pasti gagal: ``ValueError`` untuk file yang ditolak parsernya.
+
+    ``tier`` tidak diperiksa di sini: nilainya sudah dikunci ``Tier`` di schema API dan di CLI.
+    """
     check = PARSERS[file_type(path.name)].check
     if check:
         check(path, options)

@@ -1,106 +1,73 @@
-"""Antrean job in-memory dengan satu worker.
+"""Antrean job dari sisi API: serahkan file ke worker, baca status dan hasil job.
 
-Sengaja sederhana: job hanya hidup di memori proses ini dan hilang saat restart. Bagian inilah yang
-nanti diganti Redis + Celery: ``submit`` menjadi ``task.delay`` dan ``get`` menjadi pembacaan hasil
-task. Isi pekerjaannya (``process``) tidak ikut berubah.
+Job dikerjakan worker Celery (``src.jobs.tasks``); status dan hasilnya tersimpan di Redis selama
+``JOB_TTL_SECONDS``, jadi tetap ada saat API atau worker restart. File berpindah lewat S3, sehingga
+API dan worker tidak perlu berbagi disk. Modul ini tidak mengimpor kode worker.
 """
 import asyncio
 import logging
-import queue
-import threading
-import time
 import uuid
-from dataclasses import dataclass
-from typing import Any, Awaitable, Callable
+from pathlib import Path
+
+from celery import states
+
+from src.jobs import parse_job
+from src.jobs.celery_app import PARSE_TASK, celery_app
+from src.jobs.parse_job import ParseRequest
+from src.modules.contract import ParseOptions
+from src.storage.s3.objects import upload_fileobj, upload_key
 
 logger = logging.getLogger(__name__)
 
 QUEUED, RUNNING, SUCCEEDED, FAILED = "queued", "running", "succeeded", "failed"
 
-
-@dataclass
-class Job:
-    id: str
-    payload: Any
-    status: str = QUEUED
-    result: dict | None = None
-    error: str | None = None
-    finished_at: float | None = None
+# Celery menjawab PENDING untuk job yang masih antre maupun ID yang tidak pernah ada. State ini
+# ditulis saat job dibuat, supaya keduanya bisa dibedakan.
+_QUEUED_STATE = "QUEUED"
+_STATUS = {_QUEUED_STATE: QUEUED, states.STARTED: RUNNING, states.SUCCESS: SUCCEEDED, states.FAILURE: FAILED}
 
 
-class JobQueue:
-    """Job dikerjakan satu per satu oleh ``run`` (thread worker), atau seketika oleh ``run_now``.
+def _job(job_id: str, status: str, *, result: dict | None = None, error: str | None = None) -> dict:
+    return {"job_id": job_id, "status": status, "error": error, "result": result}
 
-    Satu per satu karena inferensi model memakai seluruh mesin: dua parse bersamaan hanya berebut
-    memori. ``process(payload)`` adalah coroutine yang mengembalikan hasil job.
+
+def _describe(error: BaseException) -> str:
+    return f"{type(error).__name__}: {error}"
+
+
+def submit(path: Path, options: ParseOptions) -> dict:
+    """Unggah ``path`` ke S3 dan antrekan job untuk worker; kembali seketika dengan status ``queued``."""
+    job_id = uuid.uuid4().hex
+    key = upload_key(job_id, path.name)
+    with open(path, "rb") as file:
+        upload_fileobj(file, key)
+    celery_app.backend.store_result(job_id, None, _QUEUED_STATE)
+    celery_app.send_task(PARSE_TASK, args=[key, path.name, options.tier, options.pages], task_id=job_id)
+    return _job(job_id, QUEUED)
+
+
+def run_now(request: ParseRequest) -> dict:
+    """Kerjakan job di thread pemanggil, untuk pekerjaan ringan yang tidak perlu worker.
+
+    Hasilnya ikut disimpan, jadi ``get`` menjawab job ini seperti job lainnya.
     """
+    job_id = uuid.uuid4().hex
+    try:
+        result = asyncio.run(parse_job.run(request))
+    except Exception as error:
+        logger.exception("Job %s gagal", job_id)
+        celery_app.backend.store_result(job_id, error, states.FAILURE)
+        return _job(job_id, FAILED, error=_describe(error))
+    celery_app.backend.store_result(job_id, result, states.SUCCESS)
+    return _job(job_id, SUCCEEDED, result=result)
 
-    def __init__(self, process: Callable[[Any], Awaitable[dict]], ttl_seconds: float = 3600) -> None:
-        self._process = process
-        self._ttl_seconds = ttl_seconds
-        self._jobs: dict[str, Job] = {}
-        self._lock = threading.Lock()
-        self._pending: queue.Queue[Job | None] = queue.Queue()
 
-    def submit(self, payload: Any) -> Job:
-        """Antrekan job untuk worker; kembali seketika."""
-        job = self._new_job(payload)
-        self._pending.put(job)
-        return job
-
-    def run_now(self, payload: Any) -> Job:
-        """Kerjakan job di thread pemanggil, untuk pekerjaan ringan yang tidak perlu menunggu antrean."""
-        job = self._new_job(payload)
-        self._execute(job, asyncio.run)
-        return job
-
-    def get(self, job_id: str) -> Job | None:
-        with self._lock:
-            return self._jobs.get(job_id)
-
-    def pending(self) -> int:
-        return self._pending.qsize()
-
-    def run(self) -> None:
-        """Loop worker: kerjakan job sampai ``stop``. Blocking; panggil dari thread worker.
-
-        Satu event loop untuk semua job, supaya objek asyncio milik parser (semaphore) tetap berlaku
-        dari job ke job.
-        """
-        loop = asyncio.new_event_loop()
-        try:
-            while (job := self._pending.get()) is not None:
-                self._execute(job, loop.run_until_complete)
-        finally:
-            loop.close()
-
-    def stop(self) -> None:
-        """Hentikan ``run`` setelah job yang sedang berjalan selesai; job yang masih antre ditinggalkan."""
-        self._pending.put(None)
-
-    def _new_job(self, payload: Any) -> Job:
-        job = Job(id=uuid.uuid4().hex, payload=payload)
-        with self._lock:
-            self._drop_expired()
-            self._jobs[job.id] = job
-        return job
-
-    def _drop_expired(self) -> None:
-        """Buang job selesai yang lebih tua dari TTL, supaya hasil lama tidak menumpuk di memori."""
-        cutoff = time.monotonic() - self._ttl_seconds
-        expired = [job_id for job_id, job in self._jobs.items() if job.finished_at is not None and job.finished_at < cutoff]
-        for job_id in expired:
-            del self._jobs[job_id]
-
-    def _execute(self, job: Job, run_coroutine: Callable[[Awaitable[dict]], dict]) -> None:
-        job.status = RUNNING
-        try:
-            job.result = run_coroutine(self._process(job.payload))
-            job.status = SUCCEEDED
-        except Exception as error:
-            logger.exception("Job %s gagal", job.id)
-            job.error = f"{type(error).__name__}: {error}"
-            job.status = FAILED
-        finally:
-            job.payload = None
-            job.finished_at = time.monotonic()
+def get(job_id: str) -> dict | None:
+    """Status job, atau ``None`` bila ID tidak dikenal atau hasilnya sudah melewati masa simpan."""
+    meta = celery_app.backend.get_task_meta(job_id)
+    status = _STATUS.get(meta["status"])
+    if status is None:
+        return None
+    if status == FAILED:
+        return _job(job_id, FAILED, error=_describe(meta["result"]))
+    return _job(job_id, status, result=meta["result"] if status == SUCCEEDED else None)

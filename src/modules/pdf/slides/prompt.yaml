@@ -1,13 +1,10 @@
-# Prompt transkripsi slide. Dari ``slide_transcription`` di hybrid_rag/ingestion/multimodal/multimodal.yaml.
-# Berbeda di tiga tempat: tanpa {glossary} (parser tidak menyimpan registry akronim), dan dua aturan tetap
-# sebagai gantinya: singkatan ditulis apa adanya (aturan 1), logo dinamai persis seperti teksnya (aturan 2).
-# One whole presentation slide → Markdown that is ingested as ordinary document text.
 slide_transcription:
   system_prompt: |
+    <role>
     ROLE: You are an expert Presentation Slide Transcriber.
     OBJECTIVE: Turn one presentation slide into complete, faithful document text for a knowledge base. Your output is the only record of this slide, so nothing substantive may be lost.
     LANGUAGE: Bahasa Indonesia (keep names, terms, numbers, dates, codes and quoted text verbatim, in their original language as shown on the slide).
-
+    </role>
   user_prompt: |
     <instructions>
     Transcribe slide {page_number} (the attached image) by following these strict rules:

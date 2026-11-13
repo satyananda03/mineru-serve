@@ -1,12 +1,11 @@
 """Aplikasi FastAPI layanan parser dokumen.
 
-Jalankan dari root repo: ``uvicorn src.api.main:app`` atau ``python -m src.api.main``.
-Satu proses saja: antrean job ada di memori proses ini, dan tiap proses memuat salinan modelnya sendiri.
+Jalankan dari root repo: ``python run.py``.
+API hanya menerima file dan menjawab status job; parsing dikerjakan worker Celery
+(``celery -A src.jobs.celery_app worker``), dan model hanya ada di server MinerU (``src/models``).
 """
-import asyncio
-import logging
-import threading
-from contextlib import asynccontextmanager
+import json
+import urllib.request
 from typing import Any
 
 from fastapi import FastAPI
@@ -14,66 +13,50 @@ from fastapi import FastAPI
 from src.api.routes.parse import router as parse_router
 from src.core.config import settings
 from src.core.logging import configure_logging
-from src.jobs import parse_job
-from src.jobs.job_queue import JobQueue
-from src.modules.mineru_parser.runtime import loaded_models
+from src.jobs.celery_app import celery_app
 from src.modules.router import SUPPORTED_EXTENSIONS
 
 configure_logging()
-logger = logging.getLogger(__name__)
 
-WORKER_STOP_TIMEOUT_SECONDS = 30
-
-
-def _work(app: FastAPI, jobs: JobQueue) -> None:
-    """Thread worker: memuat model MinerU, menahannya di memori, lalu mengerjakan job sampai dihentikan.
-
-    Model dimuat di thread ini karena thread inilah yang memakainya.
-    """
-    try:
-        with loaded_models() as status:
-            app.state.model_status = status
-            jobs.run()
-    except Exception as error:
-        logger.exception("Worker parse berhenti")
-        app.state.model_status = {"ready": False, "error": f"{type(error).__name__}: {error}"}
-
-
-@asynccontextmanager
-async def lifespan(app: FastAPI):
-    jobs = JobQueue(parse_job.run, ttl_seconds=settings.job_ttl_seconds)
-    app.state.jobs = jobs
-    worker = threading.Thread(target=_work, args=(app, jobs), name="parse-worker", daemon=True)
-    worker.start()
-    yield
-    jobs.stop()
-    await asyncio.to_thread(worker.join, WORKER_STOP_TIMEOUT_SECONDS)
-
+WORKER_PING_TIMEOUT_SECONDS = 1
+MINERU_HEALTH_TIMEOUT_SECONDS = 2
 
 app = FastAPI(
-    title="Document Parser API",
+    title="Multi Document Parser API",
     description="Parser dokumen lokal: file masuk, content list (text / table / image / equation) beserta layout-nya keluar.",
     version="2.0.0",
-    lifespan=lifespan,
 )
 app.include_router(parse_router)
 
 
-@app.get("/", summary="Status layanan dan model")
+def _mineru_health() -> dict[str, Any]:
+    """Keadaan server MinerU: ``reachable`` dan ``device`` yang dipakainya (``cpu`` | ``gpu``; kosong sebelum model dimuat)."""
+    try:
+        with urllib.request.urlopen(f"{settings.mineru_api_url}/v1/health", timeout=MINERU_HEALTH_TIMEOUT_SECONDS) as response:
+            runtime = json.load(response).get("runtime") or {}
+        return {"reachable": True, "device": runtime.get("device")}
+    except Exception as error:
+        return {"reachable": False, "error": type(error).__name__}
+
+
+@app.get("/", summary="Status layanan, worker, dan server MinerU")
 @app.get("/health", summary="Health check")
-async def health_check() -> dict[str, Any]:
-    """``initializing`` selama model masih dimuat; job yang masuk saat itu menunggu di antrean."""
-    status = getattr(app.state, "model_status", None) or {"ready": False}
+def health_check() -> dict[str, Any]:
+    """``ok`` bila ada worker yang menjawab dan server MinerU terjangkau.
+
+    ``no_worker``: job yang masuk menunggu di antrean. ``mineru_unreachable``: job PDF dan gambar akan gagal.
+    """
+    mineru = _mineru_health()
+    try:
+        workers = sorted(celery_app.control.inspect(timeout=WORKER_PING_TIMEOUT_SECONDS).ping() or {})
+        status = "no_worker" if not workers else "ok" if mineru["reachable"] else "mineru_unreachable"
+    except Exception as error:
+        workers, status = [], f"redis_unreachable: {type(error).__name__}"
     return {
-        "status": "ok" if status.get("ready") else "initializing",
+        "status": status,
         "service": "document-parser-api",
         "supported_extensions": sorted(SUPPORTED_EXTENSIONS),
-        "jobs_pending": app.state.jobs.pending(),
-        "model_singleton": status,
+        "workers": workers,
+        "mineru": mineru,
     }
 
-
-if __name__ == "__main__":
-    import uvicorn
-
-    uvicorn.run("src.api.main:app", host="0.0.0.0", port=settings.port, reload=False)

@@ -44,6 +44,15 @@ def upload_fileobj(fileobj, key: str, content_type: str | None = None) -> None:
 def delete_object(key: str) -> None:
     get_client().delete_object(Bucket=require_bucket(), Key=key)
 
+def download_file(key: str, path: str | Path) -> None:
+    """Write one object to ``path``; missing parent folders are created."""
+    Path(path).parent.mkdir(parents=True, exist_ok=True)
+    get_client().download_file(require_bucket(), key, str(path))
+
+def upload_key(job_id: str, filename: str) -> str:
+    """Object key of one job's uploaded file, under ``S3_PREFIX``: how the API hands the file to a worker."""
+    return f"{settings.s3_prefix.strip('/')}/uploads/{job_id}/{filename}"
+
 def object_url(key: str) -> str:
     """Public URL of one object. The VLM fetches figures from it directly."""
     return f"https://{require_bucket()}.s3.{settings.s3_region}.amazonaws.com/{key}"

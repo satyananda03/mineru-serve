@@ -3,14 +3,13 @@
 Dek slide ditranskripsi VLM per slide (``slides``); PDF lainnya dibaca MinerU (``mineru_parser``).
 Dari ``_parse_pdf`` di router lama hybrid_rag.
 """
-import asyncio
 from pathlib import Path
 
 import pymupdf
 
 from src.modules.contract import Layout, ParseOptions
 from src.modules.mineru_parser import parse_pdf, select_pages
-from src.modules.slides.parser import is_slide_deck, parse_slides
+from src.modules.pdf.slides.parser import is_slide_deck, parse_slides
 
 
 def check(path: Path, options: ParseOptions) -> None:
@@ -33,7 +32,4 @@ async def parse(path: Path, tmp_dir: Path, options: ParseOptions, slides: bool =
     """
     if slides or is_slide_deck(path):
         return "slides", await parse_slides(path, tmp_dir)
-    items = await asyncio.to_thread(
-        parse_pdf, path, tmp_dir / "figures", tier=options.tier, pages=options.pages
-    )
-    return "document", items
+    return "document", await parse_pdf(path, tmp_dir / "figures", tier=options.tier, pages=options.pages)

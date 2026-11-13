@@ -1,7 +1,7 @@
 .env
 .venv/
 __pycache__/
-images/
+/images/
 tests/parity/.work/
 hybrid_rag/
 Dokumen Test/

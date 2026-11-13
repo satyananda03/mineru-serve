@@ -26,7 +26,7 @@ from PIL import Image
 
 from src.core.config import settings
 from src.modules.figures import FIGURE_MAX_PIXELS, save_for_vlm
-from src.modules.slides.transcriber import SlideTable, slide_transcription_chain
+from src.modules.pdf.slides.transcriber import SlideTable, slide_transcription_chain
 
 logger = logging.getLogger(__name__)
 

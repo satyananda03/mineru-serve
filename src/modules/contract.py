@@ -24,6 +24,9 @@ from typing import Literal, NotRequired, TypedDict
 BBox = list[float]
 Layout = Literal["document", "slides", "sheet"]
 """Tata letak fisik dokumen; menentukan chunker di hybrid_rag (``parent_child_chunker.CHUNKERS``)."""
+Tier = Literal["basic", "flash"]
+"""Seberapa dalam MinerU membaca PDF dan gambar. ``basic``: text layer, OCR untuk halaman scan, struktur
+tabel dan rumus. ``flash``: hanya text layer, lebih cepat; halaman scan keluar sebagai gambar tanpa teks."""
 
 
 class TextItem(TypedDict):
@@ -72,8 +75,7 @@ ContentItem = TextItem | ImageItem | TableItem | EquationItem
 class ParseOptions:
     """Pilihan dari pemanggil. Parser yang tidak mengenal sebuah pilihan mengabaikannya."""
 
-    tier: str = "basic"
-    """``basic`` atau ``flash``: seberapa dalam MinerU membaca (PDF dan gambar)."""
+    tier: Tier = "basic"
     pages: str | None = None
     """Pilihan halaman 1-based seperti ``1-3,8`` (PDF); kosong berarti semua."""
 

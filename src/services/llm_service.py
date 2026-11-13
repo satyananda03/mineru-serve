@@ -250,9 +250,7 @@ class StructuredChain:
                 msgs = [*msgs, raw, HumanMessage(content=feedback)]
         raise OutputParserException(f"output tidak valid setelah {STRUCTURED_ATTEMPTS} percobaan: {out['parsing_error']}")
 
-
-def structured_chain(llm: RetryingChat, prompts: str | Path, prompt_name: str, schema,
-                     reasoning_effort: str | None = None) -> StructuredChain:
+def structured_chain(llm: RetryingChat, prompts: str | Path, prompt_name: str, schema, reasoning_effort: str | None = None) -> StructuredChain:
     return StructuredChain(llm, prompts, prompt_name, schema, reasoning_effort)
 
 def usage_of(msg) -> dict:

@@ -138,7 +138,7 @@ def _index(block: Any, ctx: PageContext) -> list[ContentItem]:
 
 
 def _equation(block: Any, ctx: PageContext) -> list[ContentItem]:
-    """Rumus blok. Tier flash tidak mengenali rumus, jadi isinya diambil dari text layer PDF."""
+    """Rumus blok. Tanpa pengenal rumus (tier flash, atau ``FORMULA_RECOGNITION=off``) isinya diambil dari text layer PDF."""
     latex = (block.content or "").strip()
     text = latex or " ".join(text_in_bbox(ctx.pdf_page, block.bbox).split())
     if not text:

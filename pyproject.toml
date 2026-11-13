@@ -6,6 +6,7 @@ readme = "README.md"
 requires-python = ">=3.13"
 dependencies = [
     "boto3>=1.43.48",
+    "celery[redis]>=5.7.0",
     "fastapi>=0.162.5",
     "html-table-rescuer>=0.3.1",
     "langchain-openai>=1.7.4",
@@ -35,18 +36,18 @@ url = "https://download.pytorch.org/whl/cpu"
 explicit = true
 
 [[tool.uv.index]]
-name = "pytorch-cu130"
-url = "https://download.pytorch.org/whl/cu130"
+name = "pytorch-cu126"
+url = "https://download.pytorch.org/whl/cu126"
 explicit = true
 
 [tool.uv.sources]
 torch = [
     { index = "pytorch-cpu", extra = "cpu" },
-    { index = "pytorch-cu130", extra = "gpu" },
+    { index = "pytorch-cu126", extra = "gpu" },
 ]
 torchvision = [
     { index = "pytorch-cpu", extra = "cpu" },
-    { index = "pytorch-cu130", extra = "gpu" },
+    { index = "pytorch-cu126", extra = "gpu" },
 ]
 
 [dependency-groups]

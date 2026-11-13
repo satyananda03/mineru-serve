@@ -1,4 +1,3 @@
-"""Pengaturan layanan, dibaca sekali dari environment (``.env``)."""
 import os
 from dataclasses import dataclass
 from dotenv import load_dotenv
@@ -40,8 +39,13 @@ class Settings:
     llm_binding_api_key: str | None = _optional("LLM_BINDING_API_KEY") or _optional("LITELLM_PROXY_API_KEY")
     max_retries: int = int(os.getenv("MAX_RETRIES") or 5)
     parser_api_key: str | None = _optional("PARSER_API_KEY")
+    redis_url: str = os.getenv("REDIS_URL") or "redis://127.0.0.1:6379/0"
+    # URL MinerU server, tidak perlu diisi kecuali server MinerU berada di mesin lain:
+    mineru_api_url: str = (os.getenv("MINERU_API_URL") or "http://127.0.0.1:8002").rstrip("/")
+    # Jumlah job yang dikerjakan satu worker sekaligus.
+    worker_concurrency: int = int(os.getenv("WORKER_CONCURRENCY") or 1)
     job_ttl_seconds: int = int(os.getenv("JOB_TTL_SECONDS") or 3600)
-    port: int = int(os.getenv("PORT") or 8000)
+    job_time_limit_seconds: int = int(os.getenv("JOB_TIME_LIMIT_SECONDS") or 3600)
 
     @property
     def resolved_vlm_binding_host(self) -> str | None:

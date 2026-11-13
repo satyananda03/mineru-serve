@@ -1,0 +1,9 @@
+services:
+  mineru:
+    image: mineru-serve-mineru:onnx
+    build:
+      args:
+        BACKEND: onnx
+    environment: !override
+      FORMULA_RECOGNITION: ${FORMULA_RECOGNITION:-on}
+    deploy: !reset {}
